@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: order-service
+  
+  datasource:
+    url: jdbc:h2:mem:order_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# External service configuration
+inventory:
+  service:
+    url: http://localhost:8081
+    timeout: 30000
+
+logging:
+  level:
+    com.microservices.order: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+# External service configuration
+inventory:
+  service:
+    url: ${INVENTORY_SERVICE_URL:http://localhost:8081}
+    timeout: 30000
+
+logging:
+  level:
+    com.microservices.order: INFO
+    org.springframework.web: WARN
+    org.hibernate.SQL: WARN

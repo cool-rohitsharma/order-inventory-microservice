@@ -1,0 +1,182 @@
+{
+  "info": {
+    "name": "Order-Inventory Microservices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "API collection for testing Order and Inventory microservices"
+  },
+  "item": [
+    {
+      "name": "Inventory Service",
+      "item": [
+        {
+          "name": "Get Inventory Batches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{inventory_url}}/inventory/PROD001",
+              "host": ["{{inventory_url}}"],
+              "path": ["inventory", "PROD001"]
+            }
+          }
+        },
+        {
+          "name": "Check Inventory Availability",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{inventory_url}}/inventory/PROD001/availability?quantity=50",
+              "host": ["{{inventory_url}}"],
+              "path": ["inventory", "PROD001", "availability"],
+              "query": [
+                {
+                  "key": "quantity",
+                  "value": "50"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Inventory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productId\": \"PROD001\",\n    \"quantity\": 10\n}"
+            },
+            "url": {
+              "raw": "{{inventory_url}}/inventory/update",
+              "host": ["{{inventory_url}}"],
+              "path": ["inventory", "update"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order Service",
+      "item": [
+        {
+          "name": "Place Order - Success",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productId\": \"PROD001\",\n    \"quantity\": 10,\n    \"customerEmail\": \"customer@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{order_url}}/order",
+              "host": ["{{order_url}}"],
+              "path": ["order"]
+            }
+          }
+        },
+        {
+          "name": "Place Order - Large Quantity (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productId\": \"PROD001\",\n    \"quantity\": 1000,\n    \"customerEmail\": \"customer2@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{order_url}}/order",
+              "host": ["{{order_url}}"],
+              "path": ["order"]
+            }
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{order_url}}/order/1",
+              "host": ["{{order_url}}"],
+              "path": ["order", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{order_url}}/order",
+              "host": ["{{order_url}}"],
+              "path": ["order"]
+            }
+          }
+        },
+        {
+          "name": "Get Orders by Customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{order_url}}/order/customer/customer@example.com",
+              "host": ["{{order_url}}"],
+              "path": ["order", "customer", "customer@example.com"]
+            }
+          }
+        },
+        {
+          "name": "Get Orders by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{order_url}}/order/status/COMPLETED",
+              "host": ["{{order_url}}"],
+              "path": ["order", "status", "COMPLETED"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{order_url}}/order/1/cancel",
+              "host": ["{{order_url}}"],
+              "path": ["order", "1", "cancel"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "inventory_url",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "order_url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
