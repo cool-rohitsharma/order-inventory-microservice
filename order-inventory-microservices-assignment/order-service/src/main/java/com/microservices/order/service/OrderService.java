@@ -31,7 +31,7 @@ public class OrderService {
         log.info("Processing order request: {}", orderRequest);
         
         // Validate request
-        if (orderRequest.getProductId().isEmpty() || orderRequest.getProductId().trim().isEmpty()) {
+        if (orderRequest.getProductId() == null || orderRequest.getProductId().trim().isEmpty()) {
             throw new IllegalArgumentException("Product ID cannot be null or empty");
         }
         
