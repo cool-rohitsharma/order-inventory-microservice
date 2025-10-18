@@ -4,7 +4,14 @@ server:
 spring:
   application:
     name: inventory-service
-  
+
+  sql:
+    init:
+      mode: always
+      platform: h2
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
   datasource:
     url: jdbc:h2:mem:inventory_db
     driver-class-name: org.h2.Driver
