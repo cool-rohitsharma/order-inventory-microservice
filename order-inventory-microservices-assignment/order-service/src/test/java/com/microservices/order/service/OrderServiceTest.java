@@ -39,7 +39,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         orderRequest = OrderRequest.builder()
-            .productId(null)
+            .productId("PROD001")
             .quantity(10)
             .customerEmail("customer@example.com")
             .build();
@@ -99,7 +99,7 @@ class OrderServiceTest {
             .build();
 
         when(orderRepository.save(any(Order.class))).thenReturn(pendingOrder, failedOrder);
-        when(inventoryServiceClient.checkInventoryAvailability("PROD001", 12)).thenReturn(false);
+        when(inventoryServiceClient.checkInventoryAvailability("PROD001", 10)).thenReturn(false);
 
         // Act
         Order result = orderService.placeOrder(orderRequest);
